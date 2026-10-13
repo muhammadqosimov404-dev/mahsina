@@ -5,6 +5,40 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>MAHSINA — Messenger</title>
 <style>
+  .stories { display: flex; gap: 12px; overflow-x: auto; padding: 12px; }
+  .story { flex: 0 0 auto; width: 90px; height: 140px; border-radius: 14px; overflow: hidden; border: 2px solid #e1306c; cursor: pointer; }
+  .story video { width: 100%; height: 100%; object-fit: cover; }
+  .viewer { position: fixed; inset: 0; background: #000; display: none; align-items: center; justify-content: center; z-index: 999; }
+  .viewer.open { display: flex; }
+  .viewer video { max-width: 100%; max-height: 100%; }
+  .close { position: absolute; top: 16px; right: 20px; color: #fff; font-size: 32px; cursor: pointer; }
+</style>
+
+<div class="stories">
+  <div class="story"><video src="story1.mp4" muted playsinline preload="metadata"></video></div>
+  <div class="story"><video src="story2.mp4" muted playsinline preload="metadata"></video></div>
+</div>
+
+<div class="viewer" id="viewer">
+  <span class="close" id="close">&times;</span>
+  <video id="player" controls autoplay playsinline></video>
+</div>
+
+<script>
+  const viewer = document.getElementById('viewer');
+  const player = document.getElementById('player');
+  document.querySelectorAll('.story video').forEach(v => {
+    v.parentElement.addEventListener('click', () => {
+      player.src = v.src;
+      viewer.classList.add('open');
+      player.play();
+    });
+  });
+  document.getElementById('close').onclick = () => {
+    player.pause();
+    viewer.classList.remove('open');
+  };
+</script>
 :root{--bg:#e8eefc;--card:#fff;--blue:#3b5bdb;--blue2:#5c7cfa;--text:#1b1f3b;--muted:#6b7394;--mine:#3b5bdb;--line:#d9e1f7}
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
